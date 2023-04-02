@@ -1,0 +1,22 @@
+<%-include("partials/header")-%>
+
+<h1><%=heading%></h1>
+<h3><%=content%></h3>
+<%for(var i=0;i<allPosts.length;i++){%>
+  <h1><%=allPosts[i].title%></h1>
+  <h3>
+    <%=(allPosts[i].content).substring(0,50)%>...<a
+      href="/posts/<%=allPosts[i].title%>"
+      >Read More</a
+    >
+  </h3>
+  <%}%>
+  <br />
+  <a href="/compose"
+    ><button class="btn btn-primary">
+      <h3><span>✎</span> Compose</h3>
+    </button></a
+  >
+
+  <%-include("partials/footer")-%>
+</allPosts.length;i++){%>
