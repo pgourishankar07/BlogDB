@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const bp = require("body-parser");
 const ejs = require("ejs");
@@ -6,7 +7,13 @@ const _ = require("lodash"); //for getting parameters in the search box without 
 // ____________________________________________________________________________________________________________
 
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/blogDB");
+mongoose.connect(
+  `mongodb+srv://pgourishankar04:${process.env.PASSWD}@cluster0.shn3qtn.mongodb.net/blogDB`,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 const postSchema = new mongoose.Schema({
   title: String,
   content: String,
@@ -14,11 +21,11 @@ const postSchema = new mongoose.Schema({
 const Post = mongoose.model("posts", postSchema);
 // ____________________________________________________________________________________________________________
 const homeContent =
-  "This is just a Blog Website developed for practicing CRUD operations in javascript and using monoDB. It is a collection of daily Journal you are composing praesentium impedit maxime libero esse sint dolore nihil beatae, quaerat non perspiciatis accusamus fugiat odio, modi quidem aperiam numquam iste. Aut facere magni quam eos unde modi veniam, saepe labore.";
+  "Welcome to our blog all about databases to read about daily blogs and you can also compose yours daily journal on this blog site.This is just a Blog Website developed for practicing CRUD operations in javascript and using mongoDB. It is a collection of daily Journal you are composing Here you'll find expert insights, tips, and news on everything related to databases - from the latest technology trends to best practices for managing and optimizing your database. Our team of experienced writers and database professionals are passionate about sharing their knowledge and expertise with our readers.";
 const aboutContent =
-  "This is Gouri Shankar B.Tech Student CSE(Iot) at Crescent Institute of Science And Technology. I love to code and listen music. I am very big fan of The Weeknd music Artist. I love to travel alone. Very fond of reading philosphy books . Currently improving Web Dev skills to get into a product based company so that i can surrounded by good developers and learn with them. Learning is never enough....So enjoy learning..... :)";
+  "My name is Gouri Shankar, and I am a B.Tech student studying CSE (IoT) at Crescent Institute of Science and Technology. I love to code and listen to music, and I also enjoy traveling alone. I am very fond of reading philosophy books, and I am currently working on improving my web development skills to secure a position in a product-based company where I can be surrounded by good developers and learn from them. Learning is never enough, so I always strive to enjoy learning. :)";
 const contactContent =
-  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, nulla. Fuga, tempora odit? Quo nesciunt tenetur molestiae aut excepturi dignissimos praesentium impedit maxime libero esse sint dolore nihil beatae, quaerat non perspiciatis accusamus fugiat odio, modi quidem aperiam numquam iste. Aut facere magni quam eos unde modi veniam, saepe labore.";
+  "Thank you for your interest in our blog all about daily journal! We love hearing from our readers/users and welcome your feedback, comments, and questions. Whether you have a suggestion for a topic you'd like us to cover, or you simply want to say hello, we'd love to hear from you.Thank you for being a part of our community and we look forward to hearing from you!";
 
 const app = express();
 app.set("view engine", "ejs");
@@ -48,7 +55,7 @@ app.get("/compose", (req, res) => {
 // _____________________________POST_________________________________
 app.post("/compose", (req, res) => {
   const post = new Post({
-    title: req.body.t,
+    title: _.lowerCase(req.body.t),
     content: req.body.p,
   });
   post.save();
@@ -60,7 +67,7 @@ app.get("/posts/:page", (req, res) => {
   let path = _.lowerCase(req.params.page); //_.lowerCase('first-day') = first day
   Post.findOne({ title: path }, (err, data) => {
     res.render("post", {
-      heading: data.title,
+      heading: _.capitalize(data.title),
       content: data.content,
     });
   });

@@ -1,15 +1,31 @@
 <%-include("partials/header")-%>
+<div class="mx-auto p-2" style="width: 200px">
+  <h1><%=heading%></h1>
+</div>
 
-<h1><%=heading%></h1>
-
-<form action="/compose" method="post">   <!-- in the place of action u need to write the same path name as app.post in app.js file-->
-    <div class="form-group">
+<form action="/compose" method="post">
+  <!-- in the place of action u need to write the same path name as app.post in app.js file-->
+  <div class="form-group">
     <h3>Title</h3>
-    <input  class="form-control" type="text" placeholder="Give a Title" name="t" />
+    <input
+      class="form-control"
+      type="text"
+      placeholder="Give a Title"
+      name="t"
+    />
     <h3>Post</h3>
-    <textarea class="form-control"  id="" placeholder="Write something..."cols="80" rows="10" name="p" ></textarea>
-    <br><button type="submit" name="button" class="btn btn-primary">Publish</button>
-    </div>
+    <textarea
+      class="form-control"
+      id=""
+      placeholder="Write something..."
+      cols="80"
+      rows="10"
+      name="p"
+    ></textarea>
+    <br /><button type="submit" name="button" class="btn btn-primary">
+      Publish
+    </button>
+  </div>
 </form>
 
 <%-include("partials/footer")-%>
